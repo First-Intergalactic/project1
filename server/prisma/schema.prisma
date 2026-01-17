@@ -1,0 +1,251 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                String         @id @default(uuid())
+  email             String         @unique
+  passwordHash      String         @map("password_hash")
+  name              String?
+  birthDate         DateTime?      @map("birth_date")
+  gender            String?
+  bio               String?
+  isProfileComplete Boolean        @default(false) @map("is_profile_complete")
+  isVerified        Boolean        @default(false) @map("is_verified")
+  verificationPhoto String?        @map("verification_photo")
+  // Phone verification
+  phone             String?        @unique
+  phoneVerified     Boolean        @default(false) @map("phone_verified")
+  phoneCode         String?        @map("phone_code")
+  phoneCodeExpires  DateTime?      @map("phone_code_expires")
+  lastOnline        DateTime       @default(now()) @map("last_online")
+  isOnline          Boolean        @default(false) @map("is_online")
+  height            Int?
+  occupation        String?
+  education         String?
+  relationshipGoal  String?        @map("relationship_goal")
+  smoking           String?
+  drinking          String?
+  children          String?
+  languages         String[]
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
+  blockedBy         Block[]        @relation("BlockedUser")
+  blockedUsers      Block[]        @relation("BlockingUser")
+  favoritedBy       Favorite[]     @relation("FavoritedUser")
+  favorites         Favorite[]     @relation("FavoriteOwner")
+  location          Location?
+  matchesAsUser1    Match[]        @relation("MatchUser1")
+  matchesAsUser2    Match[]        @relation("MatchUser2")
+  messagesSent      Message[]
+  notifications     Notification[]
+  photos            Photo[]
+  preferences       Preferences?
+  profileViews      ProfileView[]  @relation("ViewedProfile")
+  viewedProfiles    ProfileView[]  @relation("ViewerProfile")
+  reportedBy        Report[]       @relation("ReportedUser")
+  reports           Report[]       @relation("Reporter")
+  swipesReceived    Swipe[]        @relation("SwipesReceived")
+  swipesGiven       Swipe[]        @relation("SwipesGiven")
+  interests         UserInterest[]
+  subscription      Subscription?
+
+  @@map("users")
+}
+
+model Photo {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  url            String
+  isPrimary      Boolean  @default(false) @map("is_primary")
+  isVerification Boolean  @default(false) @map("is_verification")
+  order          Int      @default(0)
+  createdAt      DateTime @default(now()) @map("created_at")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("photos")
+}
+
+model Interest {
+  id       String         @id @default(uuid())
+  name     String         @unique
+  icon     String?
+  category String?
+  users    UserInterest[]
+
+  @@map("interests")
+}
+
+model UserInterest {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  interestId String   @map("interest_id")
+  interest   Interest @relation(fields: [interestId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, interestId])
+  @@map("user_interests")
+}
+
+model Preferences {
+  id                    String  @id @default(uuid())
+  userId                String  @unique @map("user_id")
+  minAge                Int     @default(18) @map("min_age")
+  maxAge                Int     @default(50) @map("max_age")
+  genderPreference      String? @map("gender_preference")
+  maxDistance           Int     @default(50) @map("max_distance")
+  showOnlyVerified      Boolean @default(false) @map("show_only_verified")
+  showOnlyOnline        Boolean @default(false) @map("show_only_online")
+  onlyMatchedCanMessage Boolean @default(false) @map("only_matched_can_message")
+  user                  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("preferences")
+}
+
+model Location {
+  id        String   @id @default(uuid())
+  userId    String   @unique @map("user_id")
+  latitude  Float
+  longitude Float
+  city      String?
+  country   String?
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("locations")
+}
+
+model Swipe {
+  id          String   @id @default(uuid())
+  swiperId    String   @map("swiper_id")
+  swipedId    String   @map("swiped_id")
+  isLike      Boolean  @map("is_like")
+  isSuperLike Boolean  @default(false) @map("is_super_like")
+  createdAt   DateTime @default(now()) @map("created_at")
+  swiped      User     @relation("SwipesReceived", fields: [swipedId], references: [id], onDelete: Cascade)
+  swiper      User     @relation("SwipesGiven", fields: [swiperId], references: [id], onDelete: Cascade)
+
+  @@unique([swiperId, swipedId])
+  @@map("swipes")
+}
+
+model Match {
+  id        String    @id @default(uuid())
+  user1Id   String    @map("user1_id")
+  user2Id   String    @map("user2_id")
+  createdAt DateTime  @default(now()) @map("created_at")
+  user1     User      @relation("MatchUser1", fields: [user1Id], references: [id], onDelete: Cascade)
+  user2     User      @relation("MatchUser2", fields: [user2Id], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@unique([user1Id, user2Id])
+  @@map("matches")
+}
+
+model Message {
+  id           String   @id @default(uuid())
+  matchId      String   @map("match_id")
+  senderId     String   @map("sender_id")
+  content      String
+  isRead       Boolean  @default(false) @map("is_read")
+  isIceBreaker Boolean  @default(false) @map("is_ice_breaker")
+  reactions    Json?    @default("[]")
+  createdAt    DateTime @default(now()) @map("created_at")
+  match        Match    @relation(fields: [matchId], references: [id], onDelete: Cascade)
+  sender       User     @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model ProfileView {
+  id        String   @id @default(uuid())
+  viewerId  String   @map("viewer_id")
+  viewedId  String   @map("viewed_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  viewed    User     @relation("ViewedProfile", fields: [viewedId], references: [id], onDelete: Cascade)
+  viewer    User     @relation("ViewerProfile", fields: [viewerId], references: [id], onDelete: Cascade)
+
+  @@map("profile_views")
+}
+
+model Favorite {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  favoriteId String   @map("favorite_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  favorite   User     @relation("FavoritedUser", fields: [favoriteId], references: [id], onDelete: Cascade)
+  user       User     @relation("FavoriteOwner", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, favoriteId])
+  @@map("favorites")
+}
+
+model Block {
+  id        String   @id @default(uuid())
+  blockerId String   @map("blocker_id")
+  blockedId String   @map("blocked_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  blocked   User     @relation("BlockedUser", fields: [blockedId], references: [id], onDelete: Cascade)
+  blocker   User     @relation("BlockingUser", fields: [blockerId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@map("blocks")
+}
+
+model Report {
+  id          String   @id @default(uuid())
+  reporterId  String   @map("reporter_id")
+  reportedId  String   @map("reported_id")
+  reason      String
+  description String?
+  status      String   @default("pending")
+  createdAt   DateTime @default(now()) @map("created_at")
+  reported    User     @relation("ReportedUser", fields: [reportedId], references: [id], onDelete: Cascade)
+  reporter    User     @relation("Reporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@map("reports")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  type      String
+  title     String
+  body      String
+  data      Json?
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model IceBreaker {
+  id       String @id @default(uuid())
+  text     String
+  category String
+
+  @@map("ice_breakers")
+}
+
+model Subscription {
+  id                   String    @id @default(uuid())
+  userId               String    @unique @map("user_id")
+  stripeCustomerId     String?   @map("stripe_customer_id")
+  stripeSubscriptionId String?   @map("stripe_subscription_id")
+  status               String    @default("inactive") // active, inactive, canceled, past_due
+  plan                 String    @default("free") // free, premium
+  currentPeriodStart   DateTime? @map("current_period_start")
+  currentPeriodEnd     DateTime? @map("current_period_end")
+  cancelAtPeriodEnd    Boolean   @default(false) @map("cancel_at_period_end")
+  createdAt            DateTime  @default(now()) @map("created_at")
+  updatedAt            DateTime  @updatedAt @map("updated_at")
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+}

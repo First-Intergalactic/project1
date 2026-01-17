@@ -1,0 +1,265 @@
+.discover-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  min-height: calc(100vh - 200px);
+}
+
+.discover-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.loading-spinner {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.discover-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 200px);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-icon {
+  font-size: 80px;
+  margin-bottom: 20px;
+}
+
+.discover-empty h2 {
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.discover-empty p {
+  margin-bottom: 24px;
+}
+
+.cards-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 500px;
+  margin-bottom: 24px;
+}
+
+.swipe-card-wrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.swipe-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  background-size: cover;
+  background-position: center;
+  cursor: grab;
+}
+
+.swipe-card:active {
+  cursor: grabbing;
+}
+
+.card-photo {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.card-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  user-select: none;
+}
+
+.card-photo .no-photo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 100px;
+  background: var(--bg-input);
+}
+
+.card-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  pointer-events: none;
+}
+
+.card-info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px;
+  color: white;
+}
+
+.card-info h2 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.card-bio {
+  font-size: 14px;
+  opacity: 0.9;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.swipe-buttons {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-nope,
+.btn-like,
+.btn-superlike {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.btn-nope {
+  width: 60px;
+  height: 60px;
+  background: var(--gradient-nope);
+  color: white;
+}
+
+.btn-like {
+  width: 70px;
+  height: 70px;
+  background: var(--gradient-like);
+  color: white;
+  font-size: 28px;
+}
+
+.btn-superlike {
+  width: 50px;
+  height: 50px;
+  background: var(--gradient-success);
+  color: white;
+  font-size: 20px;
+}
+
+.btn-nope:hover,
+.btn-like:hover,
+.btn-superlike:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-nope:disabled,
+.btn-like:disabled,
+.btn-superlike:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.match-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.match-content {
+  text-align: center;
+  padding: 40px;
+}
+
+.match-icon {
+  font-size: 100px;
+  display: block;
+  margin-bottom: 20px;
+}
+
+.match-content h2 {
+  font-size: 48px;
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 12px;
+}
+
+.match-content p {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  font-size: 18px;
+}
+
+.match-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+}
+
+@media (max-width: 480px) {
+  .cards-container {
+    height: 400px;
+  }
+
+  .card-info h2 {
+    font-size: 24px;
+  }
+
+  .swipe-buttons {
+    gap: 16px;
+  }
+
+  .btn-like {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .btn-nope {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+  }
+
+  .btn-superlike {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}

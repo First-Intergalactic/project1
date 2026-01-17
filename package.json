@@ -1,0 +1,26 @@
+{
+  "name": "dating-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "build": "npm run build --prefix client",
+    "build:check": "npm run build --prefix client 2>&1 | head -50",
+    "start": "npm run start --prefix server",
+    "db:migrate": "npm run db:migrate --prefix server",
+    "db:seed": "npm run db:seed --prefix server",
+    "db:reset": "cd server && npx prisma migrate reset --force",
+    "db:studio": "cd server && npx prisma studio",
+    "prisma:generate": "cd server && npx prisma generate",
+    "prisma:validate": "cd server && npx prisma validate",
+    "install:all": "npm install && npm install --prefix client && npm install --prefix server",
+    "clean": "rm -rf node_modules client/node_modules server/node_modules",
+    "check": "npm run prisma:validate && npm run build:check",
+    "lint": "npm run lint --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

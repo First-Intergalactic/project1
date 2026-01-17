@@ -1,0 +1,53 @@
+# Claude Code ignore file
+# These files/folders will be excluded from Claude's context
+
+# Dependencies (huge, not needed)
+node_modules/
+.pnp/
+
+# Lock files (verbose, auto-generated)
+package-lock.json
+client/package-lock.json
+server/package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Build outputs
+dist/
+build/
+.next/
+
+# IDE settings
+.idea/
+.vscode/
+
+# Git internals
+.git/
+
+# Logs and temp files
+*.log
+.cache/
+.tmp/
+
+# Assets that don't need code review
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.svg
+*.woff
+*.woff2
+*.ttf
+*.eot
+
+# Database files
+*.db
+*.sqlite
+
+# Coverage reports
+coverage/
+.nyc_output/
+
+# User uploads
+uploads/
