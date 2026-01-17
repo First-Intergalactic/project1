@@ -104,7 +104,6 @@ const translations = {
     uploadPhoto: 'Загрузите ваше фото',
     clickToUpload: 'Нажмите, чтобы выбрать фото',
     birthDate: 'Дата рождения',
-    continue: 'Продолжить',
     // Chat
     typing: 'печатает...',
     online: 'онлайн',
@@ -202,7 +201,6 @@ const translations = {
     uploadPhoto: 'Upload your photo',
     clickToUpload: 'Click to select photo',
     birthDate: 'Date of birth',
-    continue: 'Continue',
     // Chat
     typing: 'typing...',
     online: 'online',
@@ -300,7 +298,6 @@ const translations = {
     uploadPhoto: 'Sube tu foto',
     clickToUpload: 'Haz clic para seleccionar foto',
     birthDate: 'Fecha de nacimiento',
-    continue: 'Continuar',
     // Chat
     typing: 'escribiendo...',
     online: 'en línea',
@@ -1054,7 +1051,6 @@ function Register() {
             {/* Photo upload */}
             <div style={{ marginBottom: '1.5em' }}>
               <label style={{
-                display: 'block',
                 width: '10em',
                 height: '10em',
                 margin: '0 auto',

@@ -52,3 +52,6 @@ client/public/uploads/
 # Package manager locks (keep one)
 # yarn.lock
 # pnpm-lock.yaml
+
+# Local Netlify folder
+.netlify
