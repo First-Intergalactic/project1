@@ -20,9 +20,13 @@ dotenv.config()
 
 const app = express()
 const httpServer = createServer(app)
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ['https://project161.netlify.app', 'https://project161.netlify.com']
+  : ['http://localhost:5173', 'http://localhost:3000']
+
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: allowedOrigins,
     methods: ["GET", "POST"]
   }
 })
