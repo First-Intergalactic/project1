@@ -1096,7 +1096,8 @@ function Register() {
           <>
             <p style={{ color: '#6b7280', marginBottom: '1.5em' }}>{t('verifyToGetBadge')}</p>
             <input
-              type="tel"
+              type="text"
+              inputMode="tel"
               placeholder={t('enterPhone')}
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
@@ -1533,7 +1534,8 @@ function Profile() {
               {phoneStep === 'input' ? (
                 <div style={{ display: 'flex', gap: '0.5em' }}>
                   <input
-                    type="tel"
+                    type="text"
+                    inputMode="tel"
                     placeholder={t('enterPhone')}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
