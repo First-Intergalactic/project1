@@ -371,7 +371,8 @@ function LanguageSelector() {
 }
 
 // === API ===
-const API_URL = '/api'
+const PRODUCTION_API_URL = 'https://dating-app-api-m2bi.onrender.com/api'
+const API_URL = import.meta.env.PROD ? PRODUCTION_API_URL : '/api'
 
 const api = {
   async login(email, password) {
@@ -917,7 +918,7 @@ function Register() {
     setError('')
     setLoading(true)
     try {
-      const response = await fetch('/api/auth/register-start', {
+      const response = await fetch(`${API_URL}/auth/register-start`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...form, photo: photoPreview })
@@ -941,7 +942,7 @@ function Register() {
     setError('')
     setLoading(true)
     try {
-      const response = await fetch('/api/auth/register-complete', {
+      const response = await fetch(`${API_URL}/auth/register-complete`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: form.email, code })
