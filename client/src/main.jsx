@@ -17,7 +17,6 @@ const translations = {
     email: 'Email',
     password: 'Пароль',
     loading: 'Загрузка...',
-    demo: 'Демо: anna@demo.com / demo123',
     backToMain: '← На главную',
     // Navigation
     search: 'Поиск',
@@ -121,7 +120,6 @@ const translations = {
     email: 'Email',
     password: 'Password',
     loading: 'Loading...',
-    demo: 'Demo: anna@demo.com / demo123',
     backToMain: '← Back to main',
     search: 'Search',
     people: 'People',
@@ -218,7 +216,6 @@ const translations = {
     email: 'Correo',
     password: 'Contraseña',
     loading: 'Cargando...',
-    demo: 'Demo: anna@demo.com / demo123',
     backToMain: '← Volver al inicio',
     search: 'Buscar',
     people: 'Personas',
@@ -765,8 +762,8 @@ function Landing() {
 }
 
 function Login() {
-  const [email, setEmail] = useState('anna@demo.com')
-  const [password, setPassword] = useState('demo123')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const { login } = useAuth()
